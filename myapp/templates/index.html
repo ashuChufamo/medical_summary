@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Medical History Summarizer</title>
+
+    <!-- Include Google Fonts for better typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Add your custom styles -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fb;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            overflow-y: auto;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            text-align: center;
+            color: #5e72e4;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: none;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        textarea {
+            height: 150px;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: #5e72e4;
+        }
+
+        button {
+            background-color: #5e72e4;
+            color: white;
+            font-size: 16px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+            display: block;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #4d60d3;
+        }
+
+        .summary-container {
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #5e72e4;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Medical History Summarizer</h1>
+        <form id="medical-form">
+            <!-- Patient ID input -->
+            <div class="form-group">
+                <input id="person-id" type="text" placeholder="Enter Patient ID">
+            </div>
+
+            <!-- Submit button -->
+            <button type="button" onclick="submitForm()">Summarize</button>
+        </form>
+
+        <!-- Loading spinner -->
+        <div id="loading" class="loading-spinner" style="display: none;"></div>
+
+        <!-- Summary display -->
+        <div id="summary" class="summary-container">
+            <h3>Summary:</h3>
+            <div id="summary-text">The summarized medical history will appear here.</div>
+        </div>
+    </div>
+
+    <script>
+        async function submitForm() {
+            const personId = document.getElementById('person-id').value;
+            const loadingSpinner = document.getElementById('loading');
+            const summaryContainer = document.getElementById('summary');
+            const summaryText = document.getElementById('summary-text');
+
+            if (!personId.trim()) {
+                alert("Please enter a patient ID.");
+                return;
+            }
+
+            // Show loading spinner
+            loadingSpinner.style.display = 'block';
+            summaryContainer.style.display = 'none';
+
+            // Send POST request to summarize API
+            try {
+                const response = await fetch('/summarize/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ person_id: personId }),
+                });
+
+                const result = await response.json();
+
+                // Hide loading spinner
+                loadingSpinner.style.display = 'none';
+
+                if (result.summary) {
+                    summaryContainer.style.display = 'block';
+                    // Set the inner HTML of summary-text to include the bold formatting and colors
+                    summaryText.innerHTML = result.summary;
+                } else if (result.error) {
+                    summaryContainer.style.display = 'block';
+                    summaryText.innerText = "Error: " + result.error;
+                }
+            } catch (error) {
+                // Hide loading spinner
+                loadingSpinner.style.display = 'none';
+                alert("An error occurred while processing the request. Please try again.");
+            }
+        }
+    </script>
+</body>
+
+</html>
