@@ -8,10 +8,12 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.agents.output_parsers import OpenAIFunctionsAgentOutputParser
 from langchain.tools.render import format_tool_to_openai_function
 from langchain.schema.agent import AgentFinish
+import os
+from django.conf import settings
 
-# Load the Excel files once at startup
-MEDICATION_LABS_FILE = "C:\\Users\\HP\\Documents\\HABTech\\medicalSummary\\Medication and Lab data Nov 2024.xlsx"
-OPD_FILE = "C:\\Users\\HP\\Documents\\HABTech\\medicalSummary\\OPD data Nov 2024.xlsx"
+# Use BASE_DIR to define relative paths
+MEDICATION_LABS_FILE = os.path.join(settings.BASE_DIR, "medicalSummary", "Medication and Lab data Nov 2024.xlsx")
+OPD_FILE = os.path.join(settings.BASE_DIR, "medicalSummary", "OPD data Nov 2024.xlsx")
 
 medication_labs_data = pd.ExcelFile(MEDICATION_LABS_FILE)
 opd_data = pd.ExcelFile(OPD_FILE)
