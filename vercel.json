@@ -1,7 +1,7 @@
 {
     "builds": [
         {
-            "src": "medicalSummary/wsgi.py",
+            "src": "medicalSummary/asgi.py",
             "use": "@vercel/python",
             "config": {
                 "runtime": "python3.11"
@@ -11,8 +11,8 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "medicalSummary/wsgi.py"
+            "dest": "medicalSummary/asgi.py"
         }
     ],
-    "buildCommand": "pip install -r requirements.txt"
+    "buildCommand": "pip install -r requirements.txt && python manage.py collectstatic --noinput"
 }
