@@ -4,7 +4,6 @@
             "src": "medicalSummary/wsgi.py",
             "use": "@vercel/python",
             "config": {
-                "maxLambdaSize": "15mb",
                 "runtime": "python3.11"
             }
         }
@@ -14,5 +13,6 @@
             "src": "/(.*)",
             "dest": "medicalSummary/wsgi.py"
         }
-    ]
+    ],
+    "buildCommand": "pip install -r requirements.txt"
 }
