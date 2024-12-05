@@ -12,8 +12,8 @@ import os
 from django.conf import settings
 
 # Use BASE_DIR to define relative paths
-MEDICATION_LABS_FILE = os.path.join(settings.BASE_DIR, "medicalSummary", "Medication and Lab data Nov 2024.xlsx")
-OPD_FILE = os.path.join(settings.BASE_DIR, "medicalSummary", "OPD data Nov 2024.xlsx")
+MEDICATION_LABS_FILE = os.path.join(settings.BASE_DIR, "Medication and Lab data Nov 2024.xlsx")
+OPD_FILE = os.path.join(settings.BASE_DIR, "OPD data Nov 2024.xlsx")
 
 medication_labs_data = pd.ExcelFile(MEDICATION_LABS_FILE)
 opd_data = pd.ExcelFile(OPD_FILE)
