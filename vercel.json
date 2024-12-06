@@ -14,5 +14,5 @@
             "dest": "medicalSummary/asgi.py"
         }
     ],
-    "buildCommand": "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+    "buildCommand": "pip install -r requirements.txt"
 }
