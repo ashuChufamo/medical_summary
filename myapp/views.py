@@ -106,7 +106,7 @@ def summarize(request):
             medical_history = json.dumps(fetched_data, indent=2)
 
             # Summarization logic
-            GOOGLE_API_KEY = "AIzaSyBFiAVIdjfpdK3UjqaZ-6QDq-xCSIS6XlA"  # Replace with your API key
+            GOOGLE_API_KEY = "Your_api_key"  # Replace with your API key
             tools = []
             functions = [format_tool_to_openai_function(f) for f in tools]
             model = ChatGoogleGenerativeAI(
